@@ -13,8 +13,6 @@ class AdminPannelScreen extends StatelessWidget{
         title: Text("Admin pannel"),
       ),
       body: Body(),
-      bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.profile),
-      
     );
   }
 }

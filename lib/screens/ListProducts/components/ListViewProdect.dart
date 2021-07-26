@@ -16,6 +16,7 @@ import 'package:shop_app/screens/details/components/top_rounded_container.dart';
 import 'package:shop_app/size_config.dart';
 
 class ExpansionTileDemo extends StatefulWidget {
+  static Widget buttonAdd ;
   @override
   _ExpansionTileDemoState createState() => _ExpansionTileDemoState();
 }
@@ -45,17 +46,49 @@ class _ExpansionTileDemoState extends State<ExpansionTileDemo> {
               return  Loading();
             }
             remplirLists(snapshot);
-            return listProduct();
+            return Column(
+              children: [
+                listProduct(),
+                //addButton()
+              ],
+            );
           }
         ),
       ),
     );
   }
+  Widget addButton(){
+    ExpansionTileDemo.buttonAdd = DefaultButton(
+      text: "Add To Cart",
+      press: () {
+        bool ajout = false;
+        ExpansionTileProduct.productQteCmd.forEach((key, value) async {
+          if(value != 0){
+            ajout = true;
+            cart = new Cart(id: "",etatCommande: kEnAttente, productId: key, date: DateTime.now().toString().substring(0,10), numOfItem: value, idUser: FirebaseAuth.instance.currentUser.uid);
+            await DBCart.ajouterCommande(cart);
+            //print("${key.toString()} ==> $value");
+          }
+
+        });
+        if(ajout == true){
+          DialogApp.afficherDialog2pop(context, "La commande a été ajouté");
+        }
+        else{
+          DialogApp.afficherDialog(context, "Vous devez choisir des produits");
+
+        }
+        //DialogApp.afficherDialog2pop(context, "La commande a été ajouté");
+        ajout = false;
+      },
+    );
+    return ExpansionTileDemo.buttonAdd;
+  }
   Widget listProduct(){
     return  Column(
       children: [
         Container(
-          height: SizeConfig.screenHeight/1.3,
+          height: SizeConfig.screenHeight/1.4,
           child : Padding(
             padding: const EdgeInsets.symmetric(horizontal: 1.0),
             child:ListView.builder(
@@ -68,31 +101,6 @@ class _ExpansionTileDemoState extends State<ExpansionTileDemo> {
               },
             )
           ),
-        ),
-
-        DefaultButton(
-          text: "Add To Cart",
-          press: () {
-            bool ajout = false;
-            ExpansionTileProduct.productQteCmd.forEach((key, value) async {
-              if(value != 0){
-                ajout = true;
-                cart = new Cart(id: "",etatCommande: kEnAttente, productId: key, date: DateTime.now().toString().substring(0,10), numOfItem: value, idUser: FirebaseAuth.instance.currentUser.uid);
-                await DBCart.ajouterCommande(cart);
-                //print("${key.toString()} ==> $value");
-              }
-
-            });
-            if(ajout == true){
-              DialogApp.afficherDialog2pop(context, "La commande a été ajouté");
-            }
-            else{
-              DialogApp.afficherDialog(context, "Vous devez choisir des produits");
-
-            }
-            //DialogApp.afficherDialog2pop(context, "La commande a été ajouté");
-            ajout = false;
-          },
         ),
       ],
     );

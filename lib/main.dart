@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_app/Home.dart';
 import 'package:shop_app/routes.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
             title: 'Flutter Demo',
             theme: theme(),
             routes: routes,
-            home:FirebaseAuth.instance.currentUser==null? SplashScreen():HomeScreen(),
+            home:FirebaseAuth.instance.currentUser==null? SplashScreen():Home(),
           );
         }
 
