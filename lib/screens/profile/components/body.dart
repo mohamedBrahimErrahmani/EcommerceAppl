@@ -42,7 +42,7 @@ class Body extends StatelessWidget {
             icon: "assets/icons/Log out.svg",
             press: () {
               FirebaseAuth.instance.signOut();
-              Navigator.pop(context);
+              //Navigator.pop(context);
               Navigator.pushReplacementNamed(context, SplashScreen.routeName);
             },
           ),
