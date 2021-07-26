@@ -61,32 +61,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-/**
- * 
- * Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: GNav(
-          rippleColor: ColorsConstants.primaryColor,
-          hoverColor: ColorsConstants.ThirdColor,
-          gap: 0,
-          activeColor: Colors.white,
-          iconSize: 24,
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          duration: Duration(milliseconds: 400),
-          tabBackgroundColor: ColorsConstants.primaryColor,
-          // barBackgroundColor: _currentTab==3?ColorsConstants.primaryColor:ColorsConstants.SecondaryColor,
-          tabs: [
-            GButton(icon: Icons.format_bold_rounded,text: "My progress",),
-            GButton(icon: Icons.home_outlined,text: "إستفسارات",),
-            GButton(icon: FontAwesomeIcons.chalkboardTeacher,text: "متابعاتي",),
-            GButton(icon: FontAwesomeIcons.question,text: "أساتدتنا",),
-          ],
-          onTabChange: (index) {
-            setState(() {
-              _currentTab=index;
-            });
-          },
-          selectedIndex: _currentTab,
-        ),
-      ),
- */
