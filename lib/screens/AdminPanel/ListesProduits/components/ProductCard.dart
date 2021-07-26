@@ -1,0 +1,75 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:shop_app/DB/DBProduct.dart';
+import 'package:shop_app/constants.dart';
+import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/screens/details/details_screen.dart';
+import 'package:shop_app/size_config.dart';
+
+class ProductCard extends StatefulWidget {
+  Product product;
+  ProductCard(this.product);
+  @override
+  _ProductCardState createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: (){
+        Navigator.pushNamed(
+          context,
+          DetailsScreen.routeName,
+          arguments: ProductDetailsArguments(product: widget.product),
+        );
+      },
+      child : Padding(
+        padding: EdgeInsets.only(bottom: 10,left: 10,right: 10),
+        child : Container(
+          padding: EdgeInsets.all(10),
+          height: SizeConfig.screenHeight/5,
+          width: SizeConfig.screenWidth/1.6,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: kPrimaryColor,
+              width: 5
+            ),
+            borderRadius: BorderRadius.circular(15)
+          ),
+          child: Row(
+            children: [
+              ClipRRect(borderRadius: BorderRadius.circular(15.0),
+                child : CachedNetworkImage(
+                  imageUrl: widget.product.images[0],
+                  fit: BoxFit.fill,
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                ),
+              ),
+              SizedBox(width: getProportionateScreenHeight(10)),
+              Flexible(
+                child : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.product.title,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    SizedBox(height: getProportionateScreenHeight(3)),
+                    Expanded(
+                      child: Text(
+                        widget.product.description,
+                        overflow: TextOverflow.fade,
+                      ),
+                    )
+                    
+                  ],
+                )
+              ) 
+            ],
+          ),
+        )
+      )
+    );
+  }
+}
