@@ -9,8 +9,8 @@ import 'components/body.dart';
 import 'components/check_out_card.dart';
 
 class CartScreen extends StatelessWidget {
-  String idUser,title;
-  CartScreen(this.idUser,this.title);
+  String idUser,title,etatCMDs;
+  CartScreen(this.idUser,this.title,this.etatCMDs);
   static String routeName = "/cart";
   List<Cart> demoCarts;
   @override
@@ -18,7 +18,7 @@ class CartScreen extends StatelessWidget {
     return Padding(
       padding:EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(0)),
       child: FutureBuilder<List<Cart>>(
-        future:DBCart.selectCommandesByUser(idUser),
+        future:DBCart.selectCommandesByUser(idUser,etatCMDs),
         builder: (BuildContext context, AsyncSnapshot<List<Cart>> snapshot) {
           if (!snapshot.hasData) {
             return Scaffold(body :  Loading());
@@ -31,7 +31,12 @@ class CartScreen extends StatelessWidget {
             appBar: buildAppBar(context,this.title),
             body : Body(snapshot.data,title=="Your Cart"?"CurrentUser":"AutreUser"),
             
-            bottomNavigationBar: CheckoutCard(carts : snapshot.data,typeUser : title=="Your Cart"?"CurrentUser":"AutreUser",idUser : idUser),
+            bottomNavigationBar: CheckoutCard(
+              carts : snapshot.data,
+              typeUser : title=="Your Cart"?"CurrentUser":"AutreUser",
+              idUser : idUser,
+              etatCMDs: etatCMDs
+            ),
           );
         }
       ),

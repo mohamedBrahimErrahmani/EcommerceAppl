@@ -7,10 +7,5 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return ExpansionTileDemo();
-    /*Column(
-      children: [
-        ExpansionTileDemo()
-      ],
-    );*/
   }
 }

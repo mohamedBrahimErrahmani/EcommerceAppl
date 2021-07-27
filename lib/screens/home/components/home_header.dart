@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_app/constants.dart';
 import 'package:shop_app/screens/cart/cart_screen.dart';
 
 import '../../../size_config.dart';
@@ -24,7 +25,7 @@ class HomeHeader extends StatelessWidget {
             press: () => Navigator.push(
               context, 
               MaterialPageRoute(
-                builder: (context)=> CartScreen(FirebaseAuth.instance.currentUser.uid,"Your Cart")
+                builder: (context)=> CartScreen(FirebaseAuth.instance.currentUser.uid,"Your Cart",kEnAttente)
               )
             )
             //Navigator.pushNamed(context, CartScreen.routeName),

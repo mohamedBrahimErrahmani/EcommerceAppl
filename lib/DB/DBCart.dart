@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shop_app/DB/DBProduct.dart';
+import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/models/Product.dart';
-
+import "package:collection/collection.dart";
 class DBCart{
   static Future<void> ajouterCommande(Cart cart) async {
 
@@ -54,34 +55,61 @@ class DBCart{
     return userNbrCmd;
   }
 
-  static Future<double> sommeCommandeByUser(String idUser) async {
+  static Future<double> sommeCommandeByUser(String idUser,String etatCMDs) async {
     double prixGlobal=0,prixUnitaire;
-    await FirebaseFirestore.instance.collection('Carts').where("etatCommande", isEqualTo:"enAttente" ).where("idUser",isEqualTo: idUser) .get().
-    then((value)  async {
-      for(var element in value.docs) {
-        Product product = await DBProduct.getProductById(element['productId']);
-        prixUnitaire =  product.price * element['numOfItem'];
-        prixGlobal = prixGlobal + prixUnitaire;
-        print("prixGlobalAvant = $prixGlobal");
-      }
-    });
-    print("prixGlobalAprès = $prixGlobal");
+    if(etatCMDs == kEnAttente){
+      await FirebaseFirestore.instance.collection('Carts').where("etatCommande", isEqualTo:kEnAttente).where("idUser",isEqualTo: idUser) .get().
+      then((value)  async {
+        for(var element in value.docs) {
+          Product product = await DBProduct.getProductById(element['productId']);
+          prixUnitaire =  product.price * element['numOfItem'];
+          prixGlobal = prixGlobal + prixUnitaire;
+          print("prixGlobalAvant = $prixGlobal");
+        }
+      });
+    }
+    else{
+      await FirebaseFirestore.instance.collection('Carts').where("idUser",isEqualTo: idUser) .get().
+      then((value)  async {
+        for(var element in value.docs) {
+          Product product = await DBProduct.getProductById(element['productId']);
+          prixUnitaire =  product.price * element['numOfItem'];
+          prixGlobal = prixGlobal + prixUnitaire;
+          print("prixGlobalAvant = $prixGlobal");
+        }
+      });
+    }
+    
     return prixGlobal;
   }
   static Future<void> removeCart(String id) async {
     FirebaseFirestore.instance.collection('Carts').doc(id).delete();
   }
-  static Future<List<Cart>> selectCommandesByUser(String id) async {
+  static Future<List<Cart>> selectCommandesByUser(String id,String etatCMDs) async {
     List<Cart> listCart=[];
-    await FirebaseFirestore.instance.collection('Carts').where("idUser",isEqualTo: id).where("etatCommande" , isEqualTo: "enAttente")
-    .get().then((value) {
-      List<DocumentSnapshot> _myDocCount = value.docs;
-      _myDocCount.forEach((element) {
-        listCart.add(new Cart.fromMap(element.data()));
-        //print("idcentre = ${element['idCentre']},idUser = ${FirebaseAuth.instance.currentUser.uid}");
+    if(etatCMDs == kEnAttente){
+      await FirebaseFirestore.instance.collection('Carts').where("idUser",isEqualTo: id).where("etatCommande" , isEqualTo: kEnAttente)
+      .get().then((value) {
+        List<DocumentSnapshot> _myDocCount = value.docs;
+        _myDocCount.forEach((element) {
+          listCart.add(new Cart.fromMap(element.data()));
+          //print("idcentre = ${element['idCentre']},idUser = ${FirebaseAuth.instance.currentUser.uid}");
+        });
+        print("length = ${_myDocCount.length}");
       });
-      print("length = ${_myDocCount.length}");
-    });
+    }
+    else {
+      await FirebaseFirestore.instance.collection('Carts').where("idUser",isEqualTo: id)
+      .get().then((value) {
+        List<DocumentSnapshot> _myDocCount = value.docs;
+       // _myDocCount.forEach((element) 
+        for(var element in _myDocCount) {
+          listCart.add(new Cart.fromMap(element.data()));
+          //print("idcentre = ${element['idCentre']},idUser = ${FirebaseAuth.instance.currentUser.uid}");
+        }
+        listCart.sort((a, b) => b.date.compareTo(a.date));
+      });
+    }
     return listCart;
   }
   

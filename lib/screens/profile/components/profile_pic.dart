@@ -1,5 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shop_app/DB/DBUser.dart';
+import 'package:shop_app/components/Loading.dart';
+import 'dart:io';
+
+import 'package:shop_app/screens/profile/components/body.dart';
+
 
 class ProfilePic extends StatelessWidget {
   const ProfilePic({
@@ -15,8 +23,26 @@ class ProfilePic extends StatelessWidget {
         fit: StackFit.expand,
         overflow: Overflow.visible,
         children: [
-          CircleAvatar(
-            backgroundImage: AssetImage("assets/images/Profile Image.png"),
+          Container(
+            width: 160,
+            height: 160,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                    offset: Offset(0, 0),
+                    color: Colors.black,
+                    blurRadius: 3)
+              ],
+              shape: BoxShape.circle
+            ),
+            child: ClipOval(
+              child: CachedNetworkImage(
+                imageUrl: Body.user.photoProfil,
+                fit: BoxFit.fill,
+                placeholder: (context, url) => Loading(),
+              ),
+            ),
           ),
           Positioned(
             right: -16,
@@ -30,7 +56,9 @@ class ProfilePic extends StatelessWidget {
                   side: BorderSide(color: Colors.white),
                 ),
                 color: Color(0xFFF5F6F9),
-                onPressed: () {},
+                onPressed: () {
+                  addImage();
+                },
                 child: SvgPicture.asset("assets/icons/Camera Icon.svg"),
               ),
             ),
@@ -38,5 +66,13 @@ class ProfilePic extends StatelessWidget {
         ],
       ),
     );
+  }
+  Future<PickedFile> addImage() async {
+    final picker = ImagePicker();
+    File _imageFile;
+    var pickedFile = await picker.getImage(source: ImageSource.gallery);
+    _imageFile = File(pickedFile==null?FlutterLogo().toStringShallow():pickedFile.path);
+    DBUser.uploadPhoto(_imageFile,);
+    return pickedFile;
   }
 }

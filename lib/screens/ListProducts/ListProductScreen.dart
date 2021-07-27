@@ -14,7 +14,7 @@ class ListProductsScreen extends StatelessWidget {
         title: Text("List product"),
       ),
       body: Body(),
-      bottomNavigationBar: ExpansionTileDemo.buttonAdd
+      //bottomNavigationBar: ExpansionTileDemo.buttonAdd
           
     );
   }

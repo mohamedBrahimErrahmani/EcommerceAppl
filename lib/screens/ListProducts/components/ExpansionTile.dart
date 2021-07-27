@@ -26,10 +26,15 @@ class _ExpansionTileProductState extends State<ExpansionTileProduct> {
       child: ExpansionTile(
         title: Text(
           widget.marque,
-          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold,color: kPrimaryColor),
+          style: TextStyle(
+            fontSize: 16.0, 
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF000e1c)
+          ),
         ),
-        collapsedBackgroundColor:  Color(0xFFDECB9C),
+        collapsedBackgroundColor:  Color(0xFFF5F6F9),
         collapsedTextColor: Colors.white,
+        backgroundColor: Color(0xFFF5F6F9),
         children: <Widget>[
           ListView.builder(
             scrollDirection: Axis.vertical,
@@ -64,6 +69,7 @@ class _ExpansionTileProductState extends State<ExpansionTileProduct> {
         child: Column(
           children: [
             IconButton(
+              color: kPrimaryColor,
               onPressed: (){
                 setState(() {
                   ExpansionTileProduct.productQteCmd[widget.produitMarque[index].id]++;
@@ -71,26 +77,35 @@ class _ExpansionTileProductState extends State<ExpansionTileProduct> {
                 ExpansionTileProduct.productQteCmd.forEach((key, value) {
                 });
               }, 
-              icon: FaIcon(FontAwesomeIcons.plus)
+              icon: FaIcon(
+                FontAwesomeIcons.plus,
+                size: 15,
+                
+              )
             ),
-            SizedBox(height: getProportionateScreenHeight(5)),
+            SizedBox(height: getProportionateScreenHeight(0)),
             Text(
               ExpansionTileProduct.productQteCmd[widget.produitMarque[index].id].toString(),
               style : TextStyle(
-                fontSize: 22,
+                fontSize: 15,
                 fontWeight: FontWeight.w500
               )
             ),
-            SizedBox(height: getProportionateScreenHeight(5)),
+            SizedBox(height: getProportionateScreenHeight(0)),
             IconButton(
+              color: kPrimaryColor,
               onPressed: (){
                 setState(() {
                   if(ExpansionTileProduct.productQteCmd[widget.produitMarque[index].id]!=0)
                   ExpansionTileProduct.productQteCmd[widget.produitMarque[index].id]--;
                 });
               }, 
-              icon: FaIcon(FontAwesomeIcons.minus)
+              icon: FaIcon(
+                FontAwesomeIcons.minus,
+                size: 15
+              )
             ),
+            SizedBox(height: getProportionateScreenHeight(0)),
           ],
         )
       )

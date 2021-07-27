@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shop_app/constants.dart';
+import 'package:shop_app/DB/DBUser.dart';
+import 'package:shop_app/components/Loading.dart';
+import 'package:shop_app/models/User.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:shop_app/screens/AdminPanel/AdminMenu/AdminPanelScreen.dart';
 import 'package:shop_app/screens/ListProducts/ListProductScreen.dart';
@@ -49,15 +52,29 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-  SafeArea Tabs() {
+  Widget Tabs() {
     _children = [
       ListProductsScreen(),
-      CartScreen(FirebaseAuth.instance.currentUser.uid,"Your Cart"),
+      CartScreen(FirebaseAuth.instance.currentUser.uid,"Your Cart",kEnAttente),
       AdminPannelScreen(),
       ProfileScreen(),
     ];
     return SafeArea(
       child: _children[_currentTab],
     );
+    /*return FutureBuilder<UserModel>(
+      future:DBUser.getUserById(FirebaseAuth.instance.currentUser.uid),
+      builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot3) {
+        if (!snapshot3.hasData) {
+          return Loading();
+        }
+        if (snapshot3.connectionState == ConnectionState.waiting) {
+          return Loading();
+        }
+        return Container();
+      }
+    );*/
+    
+    
   }
 }

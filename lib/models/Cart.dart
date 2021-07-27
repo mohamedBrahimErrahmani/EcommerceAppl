@@ -10,7 +10,7 @@ class Cart {
   int numOfItem;
   String idUser;
   String id;
-  String date ;
+  DateTime date ;
   String etatCommande ;
 
 
@@ -21,8 +21,8 @@ class Cart {
     numOfItem=cart["numOfItem"];
     etatCommande=cart["etatCommande"];
     idUser=cart["idUser"];
-    id=cart["id"];
-    date = cart["date"];
+    id= cart["id"];
+    date = DateTime.parse(cart["date"]);
     //cart["date"];
   }
   Map<String,dynamic> toMap(){
@@ -30,7 +30,7 @@ class Cart {
       'id':this.id,
       'numOfItem':this.numOfItem,
       'idUser':this.idUser,
-      'date': this.date,
+      'date': this.date.toString(),
       'etatCommande':this.etatCommande,
       'productId':this.productId,
     };

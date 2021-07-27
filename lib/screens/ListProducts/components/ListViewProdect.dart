@@ -65,7 +65,7 @@ class _ExpansionTileDemoState extends State<ExpansionTileDemo> {
         ExpansionTileProduct.productQteCmd.forEach((key, value) async {
           if(value != 0){
             ajout = true;
-            cart = new Cart(id: "",etatCommande: kEnAttente, productId: key, date: DateTime.now().toString().substring(0,10), numOfItem: value, idUser: FirebaseAuth.instance.currentUser.uid);
+            cart = new Cart(id: "",etatCommande: kEnAttente, productId: key, date: DateTime.now(), numOfItem: value, idUser: FirebaseAuth.instance.currentUser.uid);
             await DBCart.ajouterCommande(cart);
             //print("${key.toString()} ==> $value");
           }

@@ -12,10 +12,12 @@ class CheckoutCard extends StatefulWidget {
   List<Cart> carts;
   String typeUser;
   String idUser;
+  String etatCMDs;
   CheckoutCard({
     @required this.carts,
     @required this.typeUser,
     @required this.idUser,
+    @required this.etatCMDs,
     Key key,
 
   }) : super(key: key);
@@ -63,7 +65,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                   )
                 ),
                 FutureBuilder<double>(
-                  future:DBCart.sommeCommandeByUser(widget.idUser),
+                  future:DBCart.sommeCommandeByUser(widget.idUser,widget.etatCMDs),
                   builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
                     if (!snapshot.hasData) {
                       return Text(

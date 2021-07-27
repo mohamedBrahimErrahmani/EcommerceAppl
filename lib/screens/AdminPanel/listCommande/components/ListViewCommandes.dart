@@ -33,7 +33,6 @@ class _ListViewCommandeState extends State<ListViewCommande> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return  Loading();
             }
-            //remplirLists(snapshot);
             return listCommandes(snapshot);
           }
         ),
@@ -70,7 +69,7 @@ class _ListViewCommandeState extends State<ListViewCommande> {
                             Navigator.push(
                               context, 
                               MaterialPageRoute(
-                                builder: (context)=> CartScreen(key,"User Cart")
+                                builder: (context)=> CartScreen(key,"User Cart",kEnAttente)
                               )
                             );
                           },
@@ -83,25 +82,13 @@ class _ListViewCommandeState extends State<ListViewCommande> {
                             ),
                             subtitle:  Text("${snapshot.data[key]} commandes"),
                             trailing: FutureBuilder<double>(
-                              future:DBCart.sommeCommandeByUser(key),
+                              future:DBCart.sommeCommandeByUser(key,kEnAttente),
                               builder: (BuildContext context, AsyncSnapshot<double> snapshot3) {
                                 if (!snapshot3.hasData) {
-                                  return Text(
-                                    "--",
-                                    style : TextStyle(
-                                      color : kPrimaryColor,
-                                      fontWeight: FontWeight.w500
-                                    )
-                                  );
+                                  return textAttente();
                                 }
                                 if (snapshot3.connectionState == ConnectionState.waiting) {
-                                  return Text(
-                                    "--",
-                                    style : TextStyle(
-                                      color : kPrimaryColor,
-                                      fontWeight: FontWeight.w500
-                                    )
-                                  );
+                                  return textAttente();
                                 }
                                 //remplirLists(snapshot);
                                 return Text(
@@ -127,6 +114,15 @@ class _ListViewCommandeState extends State<ListViewCommande> {
           ),
         ),
       ],
+    );
+  }
+  Widget textAttente(){
+    return Text(
+      "--",
+      style : TextStyle(
+        color : kPrimaryColor,
+        fontWeight: FontWeight.w500
+      )
     );
   }
 }

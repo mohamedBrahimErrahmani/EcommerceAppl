@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/DB/DBProduct.dart';
+import 'package:shop_app/components/Loading.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/screens/details/details_screen.dart';
@@ -28,23 +29,27 @@ class _ProductCardState extends State<ProductCard> {
         padding: EdgeInsets.only(bottom: 10,left: 10,right: 10),
         child : Container(
           padding: EdgeInsets.all(10),
-          height: SizeConfig.screenHeight/5,
+          height: SizeConfig.screenHeight/9,
           width: SizeConfig.screenWidth/1.6,
           decoration: BoxDecoration(
             border: Border.all(
               color: kPrimaryColor,
-              width: 5
+              width: 2
             ),
             borderRadius: BorderRadius.circular(15)
           ),
           child: Row(
             children: [
-              ClipRRect(borderRadius: BorderRadius.circular(15.0),
-                child : CachedNetworkImage(
-                  imageUrl: widget.product.images[0],
-                  fit: BoxFit.fill,
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                ),
+              Container(
+                height : SizeConfig.screenHeight/13,
+                width: SizeConfig.screenHeight/13,
+                child : ClipRRect(borderRadius: BorderRadius.circular(15.0),
+                  child : CachedNetworkImage(
+                    imageUrl: widget.product.images[0],
+                    fit: BoxFit.fill,
+                    placeholder: (context, url) => Loading(),
+                  ),
+                )
               ),
               SizedBox(width: getProportionateScreenHeight(10)),
               Flexible(
@@ -53,7 +58,9 @@ class _ProductCardState extends State<ProductCard> {
                   children: [
                     Text(
                       widget.product.title,
-                      style: Theme.of(context).textTheme.headline6,
+                      style: TextStyle(
+                        color : Colors.black
+                      ),
                     ),
                     SizedBox(height: getProportionateScreenHeight(3)),
                     Expanded(

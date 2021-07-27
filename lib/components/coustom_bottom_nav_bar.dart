@@ -52,7 +52,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 onPressed: ()  => Navigator.push(
                   context, 
                   MaterialPageRoute(
-                    builder: (context)=> CartScreen(FirebaseAuth.instance.currentUser.uid,"Your Cart")
+                    builder: (context)=> CartScreen(FirebaseAuth.instance.currentUser.uid,"Your Cart",kEnAttente)
                   )
                 )
               ),
