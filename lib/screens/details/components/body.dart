@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/default_button.dart';
+import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/screens/AdminPanel/AddProduct/AddProductScreen.dart';
 import 'package:shop_app/size_config.dart';
 
 import 'color_dots.dart';
@@ -10,8 +12,8 @@ import 'product_images.dart';
 
 class Body extends StatelessWidget {
   final Product product;
-
-  const Body({Key key, @required this.product}) : super(key: key);
+  final String clientAdmin;
+  const Body({Key key, @required this.product,@required this.clientAdmin}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class Body extends StatelessWidget {
             children: [
               ProductDescription(
                 product: product,
+                clientAdmin : clientAdmin,
                 pressOnSeeMore: () {},
               ),
               TopRoundedContainer(
@@ -38,11 +41,26 @@ class Body extends StatelessWidget {
                           left: SizeConfig.screenWidth * 0.15,
                           right: SizeConfig.screenWidth * 0.15,
                           bottom: getProportionateScreenWidth(40),
-                          top: getProportionateScreenWidth(15),
                         ),
-                        child: DefaultButton(
-                          text: "Add To Cart",
-                          press: () {},
+                        child: clientAdmin == "admin"?  DefaultButton(
+                          text: "Modifier",
+                          press: () {
+                            Navigator.push(
+                              context, 
+                              MaterialPageRoute(
+                                builder: (context)=>AddProductScreen(this.product)
+                              )
+                            );
+                          },
+                        ):Center(
+                          child : Text(
+                            "Prix : " + this.product.price.toString() + " DA",
+                            style: TextStyle(
+                              color : kPrimaryColor,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold
+                            ),
+                          )
                         ),
                       ),
                     ),

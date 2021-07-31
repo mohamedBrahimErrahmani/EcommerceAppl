@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/screens/AdminPanel/AddProduct/components/Body.dart';
 
 class AddProductScreen extends StatefulWidget {
-
+  Product product;
+  AddProductScreen(this.product);
   static String routeName = "/AddProduct";
   @override
   _AddProductScreenState createState() => _AddProductScreenState();
@@ -15,7 +17,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       appBar: AppBar(
         title: Text("Ajouter produit"),
       ),
-      body: Body(),
+      body: Body(widget.product),
     );
   }
 }

@@ -16,6 +16,9 @@ import 'package:shop_app/screens/AdminPanel/AddProduct/components/Gellery.dart';
 import 'package:shop_app/size_config.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 class AddProductForm extends StatefulWidget {
+  Product product;
+  static List images = [];
+  AddProductForm(this.product);
   @override
   _AddProductFormState createState() => _AddProductFormState();
 }
@@ -23,15 +26,9 @@ class AddProductForm extends StatefulWidget {
 class _AddProductFormState extends State<AddProductForm> {
   final _formKey = GlobalKey<FormState>();
   final List<String> errors = [];
-  List images = [];
-  Product product=new Product(id: "1", images: [],marque: "", title: "", price: 0, description: "");
-  /*String firstName;
-  String lastName;
-  String phoneNumber;
-  String address;*/
-
-
-
+  bool modifierProduct;
+  Product productAjout;
+  static List imagesAjoute = [];
   void addError({String error}) {
     if (!errors.contains(error))
       setState(() {
@@ -45,7 +42,21 @@ class _AddProductFormState extends State<AddProductForm> {
         errors.remove(error);
       });
   }
-
+  @override
+  void initState() {
+    if(widget.product == null){
+      this.productAjout=new Product(id: "1", images: [],promotion :false,disponible: true, marque: "", title: "", price: 0, description: "");
+      this.modifierProduct = false;
+      AddProductForm.images = [];
+    }
+    else{
+      productAjout = widget.product;
+      AddProductForm.images = widget.product.images;
+      this.modifierProduct = true;
+    }
+    
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -63,39 +74,51 @@ class _AddProductFormState extends State<AddProductForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           buildPriceFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          //buildAddressFormField(),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
-          images.length !=0? galleryPhoto(images):Container(),
-          images.length !=0?SizedBox(height: getProportionateScreenHeight(40)):
+          AddProductForm.images.length !=0? galleryPhoto():Container(),
+          AddProductForm.images.length !=0?SizedBox(height: getProportionateScreenHeight(40)):
           SizedBox(height: getProportionateScreenHeight(0)),
+          buildPromotion(),
+          SizedBox(height: getProportionateScreenHeight(0)),
+          buildDisponibilite(),
+          SizedBox(height: getProportionateScreenHeight(30)),
           DefaultButton(
-            text: "Add",
+            text: this.modifierProduct==false? "Ajouter" : "Modifier",
             press: () async {
               if (_formKey.currentState.validate()) {
-                //product.images = await DBProduct.ajouterPhotoProduit(images);
-                //await ajouterPhotoProduit();
-                await ajouterProduit();
+                if(this.modifierProduct==false){
+                  if(AddProductForm.images.length != 0){
+                    await ajouterProduit();
+                  }
+                  else{
+                    DialogApp.afficherDialog(context, "Vous devez ajouter au moin une photo");
+                  }
+                }
+                else{
+                  modifierProduit();
+                }
               }
             },
           ),
-          
+          SizedBox(height: getProportionateScreenHeight(40)),
         ],
       ),
     );
   }
   Future<void> ajouterProduit() async {
-    await DBProduct.ajouterProduit(product,this.images);
+    await DBProduct.ajouterProduit(this.productAjout,AddProductForm.images);
     DialogApp.afficherDialog2pop(context, "Le produit a été ajouté");
   }
-  Future<void> ajouterPhotoProduit()async{
-    //await DBProduct.ajouterPhotoProduit( images);
+  Future<void> modifierProduit() async {
+    await DBProduct.modifierProduit(this.productAjout,imagesAjoute);
+    DialogApp.afficherDialog2pop(context, "Le produit a été modifié");
   }
-  Widget galleryPhoto(List images){
+  Widget galleryPhoto(){
     return Container(
       height: SizeConfig.screenWidth/3,
       width: SizeConfig.screenWidth,
-      child : Gallery(images)
+      child :widget.product!=null? Gallery(liensPhotos :productAjout.images):Gallery()
     );
   }
   TextFormField buildAddressFormField() {
@@ -114,8 +137,6 @@ class _AddProductFormState extends State<AddProductForm> {
       decoration: InputDecoration(
         labelText: "Address",
         hintText: "Enter your phone address",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon:
             CustomSurffixIcon(svgIcon: "assets/icons/Location point.svg"),
@@ -125,13 +146,14 @@ class _AddProductFormState extends State<AddProductForm> {
 
   TextFormField buildPriceFormField() {
     return TextFormField(
+      initialValue :modifierProduct == true? this.productAjout.price.toString():"",
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.phone,
       onSaved: (newValue) => {
 
       },
       onChanged: (value) {
-        this.product.price =double.parse(value) ;
+        this.productAjout.price =double.parse(value) ;
       },
       validator: (value) {
         if (value.isEmpty) {
@@ -141,10 +163,8 @@ class _AddProductFormState extends State<AddProductForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "price",
-        hintText: "the price of your product",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
+        labelText: "prix",
+        hintText: "Le prix de votre produit",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         icon : FaIcon(FontAwesomeIcons.dollarSign),
       ),
@@ -153,19 +173,66 @@ class _AddProductFormState extends State<AddProductForm> {
 
   TextFormField buildDescreptionFormField() {
     return TextFormField(
+      initialValue :modifierProduct == true?this.productAjout.description:"",
       textInputAction: TextInputAction.next,
       maxLines: 5,
       onChanged: (newValue) {
-        this.product.description = newValue;
+        this.productAjout.description = newValue;
       },
       decoration: InputDecoration(
         labelText: "description",
-        hintText: "the description of your product",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
+        hintText: "La description de votre poduit",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         icon: FaIcon(FontAwesomeIcons.paragraph),
       ),
+    );
+  }
+  Widget buildDisponibilite(){
+    return Row(
+      children: [
+        Checkbox(
+          checkColor: Colors.white,
+          focusColor: kPrimaryColor,
+          activeColor: kPrimaryColor,
+          value: this.productAjout.disponible,
+          onChanged: (bool value) {
+            setState(() {
+              this.productAjout.disponible = value;
+            });
+          },
+        ),
+        Text(
+          "Produit disponible",
+          style: TextStyle(
+            color : Colors.black,
+            fontSize: 15
+          ),
+        )
+      ],
+    );
+  }
+  Widget buildPromotion(){
+    return Row(
+      children: [
+        Checkbox(
+          checkColor: Colors.white,
+          focusColor: kPrimaryColor,
+          activeColor: kPrimaryColor,
+          value: this.productAjout.promotion,
+          onChanged: (bool value) {
+            setState(() {
+              this.productAjout.promotion = value;
+            });
+          },
+        ),
+        Text(
+          "Produit en promotion",
+          style: TextStyle(
+            color : Colors.black,
+            fontSize: 15
+          ),
+        )
+      ],
     );
   }
   Widget buildPhotosProduct(){
@@ -178,12 +245,13 @@ class _AddProductFormState extends State<AddProductForm> {
   }
   TextFormField buildMarqueFormField() {
     return TextFormField(
+      initialValue :modifierProduct == true?this.productAjout.marque:"",
       textInputAction: TextInputAction.next,
       onSaved: (newValue) {
 
       },
       onChanged: (value) {
-        this.product.marque = value;
+        this.productAjout.marque = value;
       },
       validator: (value) {
         if (value.isEmpty) {
@@ -194,9 +262,7 @@ class _AddProductFormState extends State<AddProductForm> {
       },
       decoration: InputDecoration(
         labelText: "marque",
-        hintText: "the marque of your product",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
+        hintText: "La marque de votre produit",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         icon: FaIcon(
           FontAwesomeIcons.infoCircle
@@ -206,12 +272,13 @@ class _AddProductFormState extends State<AddProductForm> {
   }
   TextFormField buildTitleFormField() {
     return TextFormField(
+      initialValue :modifierProduct == true? this.productAjout.title:"",
       textInputAction: TextInputAction.next,
       onSaved: (newValue) {
 
       },
       onChanged: (value) {
-        this.product.title = value;
+        this.productAjout.title = value;
       },
       validator: (value) {
         if (value.isEmpty) {
@@ -221,10 +288,8 @@ class _AddProductFormState extends State<AddProductForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "title",
-        hintText: "the title of your product",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
+        labelText: "nom",
+        hintText: "Le nom de votre produit",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         icon: FaIcon(
           FontAwesomeIcons.infoCircle
@@ -233,11 +298,8 @@ class _AddProductFormState extends State<AddProductForm> {
     );
   }
   Future<void> loadAssets() async {
-    /*setState(() {
-      images = [];
-    });*/
-
-    List resultList;
+    imagesAjoute = [];
+    List resultList = [];
     String error;
 
     try {
@@ -247,18 +309,13 @@ class _AddProductFormState extends State<AddProductForm> {
     } on Exception catch (e) {
       error = e.toString();
     }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
 
     setState(() {
       if(resultList!=null)
-      images =images + resultList;
+      AddProductForm.images =AddProductForm.images + resultList;
+      imagesAjoute = imagesAjoute + resultList;
       if (error == null) error = 'No Error Dectected';
     });
-
-    this.product.images = [];
   }
 }

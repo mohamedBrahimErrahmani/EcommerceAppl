@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/DB/DBProduct.dart';
+import 'package:shop_app/components/Loading.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/screens/AdminPanel/ListesProduits/components/ListeViewProduits.dart';
@@ -33,28 +34,12 @@ class _BodyState extends State<Body> {
               // Check for errors
               if (!snapshot.hasData) {
                 return Scaffold(
-                  body: Center(
-                    child: Center(
-                        child: CircularProgressIndicator(
-                          valueColor: new AlwaysStoppedAnimation<Color>(
-                            kPrimaryColor
-                          ),
-                        )
-                    )
-                  ),
+                  body: Loading()
                 );
               }
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Scaffold(
-                  body: Center(
-                    child: Center(
-                        child: CircularProgressIndicator(
-                          valueColor: new AlwaysStoppedAnimation<Color>(
-                            kPrimaryColor
-                          ),
-                        )
-                    )
-                  ),
+                  body: Loading(),
                 );
               }
               // Once complete, show your application
@@ -70,7 +55,6 @@ class _BodyState extends State<Body> {
                   }
                 });
               }
-              
               return SingleChildScrollView(
                 child : Column(
                   children: [
@@ -98,8 +82,6 @@ class _BodyState extends State<Body> {
                   ],
                 )
               );
-
-              
             }
           ),
         ),

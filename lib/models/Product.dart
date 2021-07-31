@@ -7,7 +7,7 @@ class Product {
   List<dynamic> images;
   List<Color> colors=[];
   double rating, price;
-  bool isFavourite, isPopular;
+  bool promotion, disponible;
 
   Product({
     @required this.id,
@@ -15,8 +15,8 @@ class Product {
     @required this.images,
     this.colors,
     this.rating = 0.0,
-    this.isFavourite = false,
-    this.isPopular = false,
+    this.promotion = false,
+    this.disponible = true,
     @required this.title,
     @required this.price,
     @required this.description,
@@ -30,8 +30,8 @@ class Product {
     colors = product['colors'];
     rating = product['rating'];
     price = product['price'];
-    isFavourite = product['isFavourite'];
-    isPopular = product['isPopular'];
+    promotion = product['promotion'];
+    disponible = product['disponible'];
   }
   Map<String,dynamic> toMap(){
     return{
@@ -43,8 +43,8 @@ class Product {
       'colors':this.colors,
       'rating':this.rating,
       'price':this.price,
-      'isFavourite':this.isFavourite,
-      'isPopular':this.isPopular,
+      'promotion':this.promotion,
+      'disponible':this.disponible,
       
     };
   }
@@ -52,7 +52,7 @@ class Product {
 
 // Our demo Products
 
-List<Product> demoProducts = [
+/*List<Product> demoProducts = [
   Product(
     id: "1",
     marque: "mh",
@@ -72,8 +72,8 @@ List<Product> demoProducts = [
     price: 64.99,
     description: description,
     rating: 4.8,
-    isFavourite: true,
-    isPopular: true,
+    promotion: true,
+    disponible: true,
   ),
   Product(
     id: "2",
@@ -91,7 +91,7 @@ List<Product> demoProducts = [
     price: 50.5,
     description: description,
     rating: 4.1,
-    isPopular: true,
+    disponible: true,
   ),
   Product(
     id: "3",
@@ -109,8 +109,8 @@ List<Product> demoProducts = [
     price: 36.55,
     description: description,
     rating: 4.1,
-    isFavourite: true,
-    isPopular: true,
+    promotion: true,
+    disponible: true,
   ),
   Product(
     id: "4",
@@ -128,9 +128,9 @@ List<Product> demoProducts = [
     price: 20.20,
     description: description,
     rating: 4.1,
-    isFavourite: true,
+    promotion: true,
   ),
-];
+];*/
 
 const String description =
     "Wireless Controller for PS4™ gives you what you want in your gaming from over precision control your games to sharing …";

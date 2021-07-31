@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shop_app/components/DialogApp.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/screens/AdminPanel/ListesProduits/components/ProductCard.dart';
-import 'package:shop_app/screens/ListProducts/components/CommandeBar.dart';
 import 'package:shop_app/size_config.dart';
 
 class ExpansionTileProduct extends StatefulWidget {
@@ -44,7 +44,7 @@ class _ExpansionTileProductState extends State<ExpansionTileProduct> {
             itemBuilder: (BuildContext context, int index) {
               return Row(
                 children :[
-                  ProductCard(widget.produitMarque[index]),
+                  ProductCard(widget.produitMarque[index],"client"),
                   SizedBox(width: getProportionateScreenHeight(10)),
                   buttonCMD(index)
                 ]
@@ -72,7 +72,12 @@ class _ExpansionTileProductState extends State<ExpansionTileProduct> {
               color: kPrimaryColor,
               onPressed: (){
                 setState(() {
-                  ExpansionTileProduct.productQteCmd[widget.produitMarque[index].id]++;
+                  if(widget.produitMarque[index].disponible){
+                    ExpansionTileProduct.productQteCmd[widget.produitMarque[index].id]++;
+                  }
+                  else{
+                    DialogApp.afficherDialog(context, "Produit non disponible");
+                  }
                 });
                 ExpansionTileProduct.productQteCmd.forEach((key, value) {
                 });

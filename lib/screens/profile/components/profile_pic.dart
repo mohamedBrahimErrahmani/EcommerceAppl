@@ -36,13 +36,13 @@ class ProfilePic extends StatelessWidget {
               ],
               shape: BoxShape.circle
             ),
-            child: ClipOval(
+            child: Body.user.photoProfil !=""? ClipOval(
               child: CachedNetworkImage(
                 imageUrl: Body.user.photoProfil,
                 fit: BoxFit.fill,
                 placeholder: (context, url) => Loading(),
               ),
-            ),
+            ):Image.asset("assets/images/ProfileImage.png"),
           ),
           Positioned(
             right: -16,

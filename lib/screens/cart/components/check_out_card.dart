@@ -101,18 +101,6 @@ class _CheckoutCardState extends State<CheckoutCard> {
 
               ],
             ),
-            /*Text.rich(
-              TextSpan(
-                text: "Total:\n",
-                children: [
-                  
-                  /*TextSpan(
-                    text: "\$337.15",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
-                  ),*/
-                ],
-              ),
-            ),*/
             SizedBox(
               height: getProportionateScreenWidth(10),
             ),

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shop_app/DB/DBProduct.dart';
 import 'package:shop_app/components/Loading.dart';
 import 'package:shop_app/constants.dart';
@@ -9,7 +10,8 @@ import 'package:shop_app/size_config.dart';
 
 class ProductCard extends StatefulWidget {
   Product product;
-  ProductCard(this.product);
+  String clientAdmin;
+  ProductCard(this.product,this.clientAdmin);
   @override
   _ProductCardState createState() => _ProductCardState();
 }
@@ -22,7 +24,7 @@ class _ProductCardState extends State<ProductCard> {
         Navigator.pushNamed(
           context,
           DetailsScreen.routeName,
-          arguments: ProductDetailsArguments(product: widget.product),
+          arguments: ProductDetailsArguments(product: widget.product,clientAdmin : widget.clientAdmin),
         );
       },
       child : Padding(
@@ -56,17 +58,34 @@ class _ProductCardState extends State<ProductCard> {
                 child : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.product.title,
-                      style: TextStyle(
-                        color : Colors.black
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            widget.product.title ,
+                            style: TextStyle(
+                              color : Colors.black,
+                              fontSize: 15
+                            ),
+                          )
+                        ),
+                        widget.product.promotion?
+                        Expanded(
+                          child:FaIcon(
+                            FontAwesomeIcons.ad,
+                            color: kPrimaryColor,
+                          )
+                        ):Container(),
+                      ],
                     ),
                     SizedBox(height: getProportionateScreenHeight(3)),
                     Expanded(
                       child: Text(
                         widget.product.description,
                         overflow: TextOverflow.fade,
+                        style: TextStyle(
+                          fontSize: 8
+                        ),
                       ),
                     )
                     

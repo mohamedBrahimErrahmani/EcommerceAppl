@@ -25,16 +25,16 @@ var kInputFormat = DateFormat('dd/MM/yyyy');
 // Form Error
 final RegExp emailValidatorRegExp =
     RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-const String kEmailNullError = "Please Enter your email";
-const String kInvalidEmailError = "Please Enter Valid Email";
-const String kPassNullError = "Please Enter your password";
-const String kShortPassError = "Password is too short";
-const String kMatchPassError = "Passwords don't match";
-const String kNamelNullError = "Please Enter your name";
-const String kPhoneNumberNullError = "Please Enter your phone number";
-const String kAddressNullError = "Please Enter your address";
-const String kPriceNullError = "Please Enter the price";
-const String kTitleNullError = "Please Enter the title";
+const String kEmailNullError = "Entrer l'email' SVP";
+const String kInvalidEmailError = "Entrer un email valide SVP";
+const String kPassNullError = "Entrer le mot de passe SVP";
+const String kShortPassError = "Le mot de passe est très court";
+const String kMatchPassError = "Entrer un mot de passe valide SVP";
+const String kNamelNullError = "Entrer votre nom SVP";
+const String kPhoneNumberNullError = "Entrer votre numéro du téléphone SVP";
+const String kAddressNullError = "Entrer votre adresse SVP";
+const String kPriceNullError = "Entrer le prix SVP";
+const String kTitleNullError = "Entrer le titre SVP";
 const String kEnAttente = "enAttente";
 
 

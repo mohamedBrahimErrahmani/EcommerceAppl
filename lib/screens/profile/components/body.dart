@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/routes.dart';
 import 'package:shop_app/screens/cart/cart_screen.dart';
+import 'package:shop_app/screens/historique_achat/historiqueAchatScreen.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/splash/splash_screen.dart';
 import 'package:shop_app/theme.dart';
@@ -33,33 +34,33 @@ class Body extends StatelessWidget {
               ProfilePic(),
               SizedBox(height: 20),
               ProfileMenu(
-                text: "Historiques achats",
+                text: "Historiques d'achats",
                 icon: "assets/icons/User Icon.svg",
                 press: () => {
                   Navigator.push(
                     context, 
                     MaterialPageRoute(
-                      builder: (context)=> CartScreen(FirebaseAuth.instance.currentUser.uid,"Your Cart","tout"),
+                      builder: (context)=> HistoriqueAchatScreen(),
       
                     )
                   )
                 },
               ),
-              ProfileMenu(
-                text: "Notifications",
-                icon: "assets/icons/Bell.svg",
-                press: () {},
-              ),
-              ProfileMenu(
-                text: "Settings",
-                icon: "assets/icons/Settings.svg",
-                press: () {},
-              ),
-              ProfileMenu(
-                text: "Help Center",
-                icon: "assets/icons/Question mark.svg",
-                press: () {},
-              ),
+              // ProfileMenu(
+              //   text: "Notifications",
+              //   icon: "assets/icons/Bell.svg",
+              //   press: () {},
+              // ),
+              // ProfileMenu(
+              //   text: "Settings",
+              //   icon: "assets/icons/Settings.svg",
+              //   press: () {},
+              // ),
+              // ProfileMenu(
+              //   text: "Help Center",
+              //   icon: "assets/icons/Question mark.svg",
+              //   press: () {},
+              // ),
               ProfileMenu(
                 text: "Log Out",
                 icon: "assets/icons/Log out.svg",
