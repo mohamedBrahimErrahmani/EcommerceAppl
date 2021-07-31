@@ -59,7 +59,7 @@ class _ExpansionTileDemoState extends State<ExpansionTileDemo> {
   }
   Widget addButton(){
     ExpansionTileDemo.buttonAdd = DefaultButton(
-      text: "Add To Cart",
+      text: "Commander",
       press: () {
         bool ajout = false;
         ExpansionTileProduct.productQteCmd.forEach((key, value) async {
@@ -70,13 +70,12 @@ class _ExpansionTileDemoState extends State<ExpansionTileDemo> {
             //print("${key.toString()} ==> $value");
           }
 
-        });
+        });                                 
         if(ajout == true){
-          DialogApp.afficherDialog2pop(context, "La commande a été ajouté");
+          DialogApp.afficherDialog(context, "La commande a été ajouté");
         }
         else{
           DialogApp.afficherDialog(context, "Vous devez choisir des produits");
-
         }
         //DialogApp.afficherDialog2pop(context, "La commande a été ajouté");
         ajout = false;

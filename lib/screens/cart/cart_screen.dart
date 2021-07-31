@@ -28,7 +28,7 @@ class CartScreen extends StatelessWidget {
           }
           this.demoCarts = snapshot.data;
           return Scaffold(
-            appBar: buildAppBar(context,this.title),
+            appBar: buildAppBar(context,this.title=="Your Cart"?"Vos demandes":"Les demandes"),
             body : Body(snapshot.data,title=="Your Cart"?"CurrentUser":"AutreUser"),
             
             bottomNavigationBar: CheckoutCard(

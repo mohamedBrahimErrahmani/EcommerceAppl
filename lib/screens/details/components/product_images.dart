@@ -38,13 +38,22 @@ class _ProductImagesState extends State<ProductImages> {
           ),
         ),
         SizedBox(height: getProportionateScreenWidth(20)),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ...List.generate(widget.product.images.length,
-                (index) => buildSmallProductPreview(index)),
-          ],
-        )
+        Center(
+          child : Container(
+            width: SizeConfig.screenWidth/1.2,
+            height: getProportionateScreenWidth(48),
+            child :Center(
+              child :  ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: widget.product.images.length,
+                itemBuilder: (context, i) {
+                  return Center(child : buildSmallProductPreview(i));
+                }
+              )
+            )
+          )
+        ),
       ],
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shop_app/components/product_card.dart';
+import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/screens/AdminPanel/AddProduct/AddProductScreen.dart';
 import 'package:shop_app/screens/AdminPanel/AdminMenu/components/MenuGridCard.dart';
 import 'package:shop_app/screens/AdminPanel/ListesProduits/ListesProduitsScreen.dart';
@@ -21,8 +23,12 @@ class MenuGrid extends StatelessWidget {
       children: [
         InkWell(
           onTap: (){
-            Navigator.pushNamed(context, AddProductScreen.routeName);
-            
+            Navigator.push(
+              context, 
+              MaterialPageRoute(
+                builder: (context)=>AddProductScreen(null)
+              )
+            );
           },
           child: MenuGridCard("Ajouter produit",FontAwesomeIcons.plus),
 
@@ -52,8 +58,6 @@ class MenuGrid extends StatelessWidget {
           child: MenuGridCard("Expansion tile",FontAwesomeIcons.listOl),
 
         ),
-        
-        
       ]
     );
   }

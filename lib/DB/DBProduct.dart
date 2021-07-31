@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:shop_app/models/Cart.dart';
@@ -144,6 +145,62 @@ class DBProduct{
 
 
   }
+  static Future<void> modifierProduit(Product product,List<dynamic> images) async {
+
+    DocumentReference productRef = FirebaseFirestore.instance.collection("product").doc(product.id);
+    List<String> links =  [];
+    TaskSnapshot taskSnapshot;
+    FirebaseStorage storage = FirebaseStorage.instance;
+    //int i=1;
+    int compteurPhotoAjoute=1;
+    //product.images=[];
+    //product.id = productRef.id;
+    if(images.length != 0){
+      //product.images=[];
+      images.forEach((element) async {
+        Reference storageRef = storage.ref('photosProduits/${DateTime.now()}$compteurPhotoAjoute');
+        ByteData byteData = await element.getByteData();
+          taskSnapshot=await storageRef.putData(
+            byteData.buffer.asUint8List()).then((value) async {
+            String link =await value.ref.getDownloadURL();
+            product.images.add(link);
+            
+            if(images.length==compteurPhotoAjoute){
+              productRef.update(product.toMap())
+              .then((value) { 
+                print("Produit ajouté");
+              });
+            }
+            //ScaffoldMessenger.of(context).showSnackBar((SnackBar(content: Text("تمت الإضافة"))));
+            return value;
+        });
+        compteurPhotoAjoute++;
+        //++;
+      });
+    }
+    else{
+      productRef.update(product.toMap())
+      .then((value) { 
+        print("Produit ajouté");
+      });
+    }
+  }
+  static Future<Map<String,List< Cart>>> commandeParDate() async {
+    Map<String,List< Cart>> dateByCart = {};
+
+    var cartsRef = await FirebaseFirestore.instance.collection("Carts").where("idUser",isEqualTo : FirebaseAuth.instance.currentUser.uid).where("etatCommande", isEqualTo: "effectué").get();
+    for(var element in cartsRef.docs){
+      if(!dateByCart.containsKey(element['date'].toString().substring(0,10))){
+        dateByCart.putIfAbsent(element['date'].toString().substring(0,10), () => [Cart.fromMap(element.data())] );
+      }
+      else{
+        dateByCart[element['date'].toString().substring(0,10)].add(Cart.fromMap(element.data()));
+      }
+    }
+
+    return dateByCart;
+  }
+
   
 
 }

@@ -18,7 +18,7 @@ class _ListeViewProduitsState extends State<ListeViewProduits> {
     return ListView.builder(
       itemCount: widget.products.length,
       itemBuilder: (context, i) {
-        return ProductCard(widget.products[i]);
+        return ProductCard(widget.products[i],"admin");
       }
     );
   }

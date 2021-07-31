@@ -62,19 +62,5 @@ class _HomeState extends State<Home> {
     return SafeArea(
       child: _children[_currentTab],
     );
-    /*return FutureBuilder<UserModel>(
-      future:DBUser.getUserById(FirebaseAuth.instance.currentUser.uid),
-      builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot3) {
-        if (!snapshot3.hasData) {
-          return Loading();
-        }
-        if (snapshot3.connectionState == ConnectionState.waiting) {
-          return Loading();
-        }
-        return Container();
-      }
-    );*/
-    
-    
   }
 }
