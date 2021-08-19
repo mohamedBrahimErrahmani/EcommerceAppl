@@ -11,7 +11,7 @@ class ListProductsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: SizedBox(),
-        title: Text("List product"),
+        title: Text("La liste des produits"),
       ),
       body: Body(),
       //bottomNavigationBar: ExpansionTileDemo.buttonAdd

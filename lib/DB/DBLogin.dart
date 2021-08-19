@@ -63,18 +63,7 @@ class DBLogin {
         return e.code;
       }
     }
-    
-    
-    
-    /*CollectionReference users = FirebaseFirestore.instance.collection("users");
-    UserModel nouveauUtilisateur = new UserModel('','',email,'','');
-    
-    FirebaseFirestore.instance.collection('users').doc(result.user.uid).set
-    (nouveauUtilisateur.toMap())
-    .then((value) => print("User Added"))
-    .catchError((error) => print("Failed to add user: $error"));*/
 
-    // return  await result.user;
   }
   
   

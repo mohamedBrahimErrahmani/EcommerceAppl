@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shop_app/DB/DBProduct.dart';
+import 'package:shop_app/components/BlinkingWidget.dart';
 import 'package:shop_app/components/Loading.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Product.dart';
@@ -31,7 +33,7 @@ class _ProductCardState extends State<ProductCard> {
         padding: EdgeInsets.only(bottom: 10,left: 10,right: 10),
         child : Container(
           padding: EdgeInsets.all(10),
-          height: SizeConfig.screenHeight/9,
+          height: SizeConfig.screenHeight/8,
           width: SizeConfig.screenWidth/1.6,
           decoration: BoxDecoration(
             border: Border.all(
@@ -71,23 +73,21 @@ class _ProductCardState extends State<ProductCard> {
                         ),
                         widget.product.promotion?
                         Expanded(
-                          child:FaIcon(
-                            FontAwesomeIcons.ad,
-                            color: kPrimaryColor,
-                          )
+                          child: BlinkingWidget(child: SvgPicture.asset("assets/icons/promotion.svg",height: 40,width: 40,))
                         ):Container(),
                       ],
                     ),
                     SizedBox(height: getProportionateScreenHeight(3)),
                     Expanded(
-                      child: Text(
-                        widget.product.description,
-                        overflow: TextOverflow.fade,
-                        style: TextStyle(
-                          fontSize: 8
-                        ),
-                      ),
-                    )
+                        child: Text(
+                          widget.product.price.toString()+ "DZ" ,
+                          style: TextStyle(
+                              color : Colors.black,
+                              fontSize: 15
+                          ),
+                        )
+                    ),
+
                     
                   ],
                 )

@@ -15,7 +15,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Ajouter produit"),
+        title: Text("Ajouter un produit"),
       ),
       body: Body(widget.product),
     );

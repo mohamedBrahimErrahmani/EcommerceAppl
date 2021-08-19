@@ -37,10 +37,10 @@ class _HomeState extends State<Home> {
           tabBackgroundColor: kPrimaryColor,
           // barBackgroundColor: _currentTab==3?ColorsConstants.primaryColor:ColorsConstants.SecondaryColor,
           tabs: [
-            GButton(icon: FontAwesomeIcons.cartPlus,text: "  Commander",),
-            GButton(icon: FontAwesomeIcons.shoppingCart ,text: "  Mes cmd",),
+            GButton(icon: FontAwesomeIcons.cartPlus,text: "",),
+            GButton(icon: FontAwesomeIcons.shoppingCart ,text: "",),
             GButton(icon: FontAwesomeIcons.userLock,text: "  Admin",),
-            GButton(icon: FontAwesomeIcons.user,text: "  profil",),
+            GButton(icon: FontAwesomeIcons.user,text: "  Profil",),
           ],
           onTabChange: (index) {
             setState(() {

@@ -45,7 +45,7 @@ class _BodyState extends State<Body> {
                   ),
                 ),
                 collapsedBackgroundColor:  Color(0xFFF5F6F9),
-                collapsedTextColor: Colors.white,
+              //  collapsedTextColor: Colors.white,
                 backgroundColor: Color(0xFFF5F6F9),
                 children: <Widget>[
                   ListView.builder(

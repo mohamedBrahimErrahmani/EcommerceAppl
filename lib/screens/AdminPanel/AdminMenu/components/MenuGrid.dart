@@ -30,7 +30,7 @@ class MenuGrid extends StatelessWidget {
               )
             );
           },
-          child: MenuGridCard("Ajouter produit",FontAwesomeIcons.plus),
+          child: MenuGridCard("Ajouter un produit",FontAwesomeIcons.plus),
 
         ),
         InkWell(
@@ -38,7 +38,7 @@ class MenuGrid extends StatelessWidget {
             Navigator.pushNamed(context, ListeProduitsScreen.routeName);
             
           },
-          child: MenuGridCard("Listes produit",FontAwesomeIcons.list),
+          child: MenuGridCard("la listes des produits",FontAwesomeIcons.list),
 
         ),
         InkWell(
@@ -55,7 +55,7 @@ class MenuGrid extends StatelessWidget {
             Navigator.pushNamed(context, ListProductsScreen.routeName);
             
           },
-          child: MenuGridCard("Expansion tile",FontAwesomeIcons.listOl),
+          child: MenuGridCard("Vu user",FontAwesomeIcons.listOl),
 
         ),
       ]

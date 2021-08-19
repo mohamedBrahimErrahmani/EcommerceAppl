@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shop_app/components/BlinkingWidget.dart';
 import 'package:shop_app/models/Product.dart';
 
 import '../../../constants.dart';
@@ -49,13 +50,10 @@ class _ProductDescriptionState extends State<ProductDescription> {
                 bottomLeft: Radius.circular(20),
               ),
             ),
-            child:  FaIcon(
-              FontAwesomeIcons.ad,
-              color: widget.product.promotion?
-              kPrimaryColor
-              :Colors.grey,
-            ),
-            
+            child:  widget.product.promotion?
+            BlinkingWidget(child: SvgPicture.asset("assets/icons/promotion.svg",height: 20,width: 50,))
+            :SizedBox(),
+
           ),
         ),
         Padding(

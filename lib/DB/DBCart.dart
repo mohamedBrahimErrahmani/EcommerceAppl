@@ -21,7 +21,6 @@ class DBCart{
       List<DocumentSnapshot> _myDocCount = value.docs;
       _myDocCount.forEach((element) {
         listCart.add(new Cart.fromMap(element.data()));
-        //print("idcentre = ${element['idCentre']},idUser = ${FirebaseAuth.instance.currentUser.uid}");
       });
       print("length = ${_myDocCount.length}");
     });
@@ -64,7 +63,6 @@ class DBCart{
           Product product = await DBProduct.getProductById(element['productId']);
           prixUnitaire =  product.price * element['numOfItem'];
           prixGlobal = prixGlobal + prixUnitaire;
-          print("prixGlobalAvant = $prixGlobal");
         }
       });
     }
@@ -75,7 +73,6 @@ class DBCart{
           Product product = await DBProduct.getProductById(element['productId']);
           prixUnitaire =  product.price * element['numOfItem'];
           prixGlobal = prixGlobal + prixUnitaire;
-          print("prixGlobalAvant = $prixGlobal");
         }
       });
     }
